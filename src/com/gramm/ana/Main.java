@@ -22,20 +22,11 @@ public final class Main {
 
         List<String> anagrams = AnagramFinder.findAnagrams(referenceWord, words);
 
-        String output = buildOutput(anagrams);
+        OutputBuilder wordMerger = new CustomWordMerger();
+
+        String output = wordMerger.buildOutput(anagrams);
         System.out.println(output);
     }
 
-    private static String buildOutput(List<String> anagrams) {
-        StringBuilder output = new StringBuilder("[");
-        for (String anagram : anagrams) {
-            output.append(anagram);
-            output.append(", ");
-        }
 
-        output.delete(output.length() - 2, output.length());
-        output.append("]");
-
-        return output.toString();
-    }
 }
