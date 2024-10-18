@@ -8,24 +8,24 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AnagramFinderTest {
+class TextProcessorTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"", "   "})
     void findingAnagrams_shouldPrintEmptyArray_whenReferenceWordBlank(String referenceWord) {
-        List<String> output = AnagramFinder.findAnagrams(referenceWord, new String[]{"Words", "of", "the", "world"});
+        List<String> output = TextProcessor.findAnagrams(referenceWord, new String[]{"Words", "of", "the", "world"});
         assertTrue(output.isEmpty());
     }
 
     @Test
     void findingAnagrams_shouldPrintEmptyArray_whenInputArrayBlank() {
-        List<String> output = AnagramFinder.findAnagrams("good", new String[]{});
+        List<String> output = TextProcessor.findAnagrams("good", new String[]{});
         assertTrue(output.isEmpty());
     }
 
     @Test
     void findingAnagrams_shouldPrintEmptyArray_whenBothReferenceWordAndInputArrayBlank() {
-        List<String> output = AnagramFinder.findAnagrams("", new String[]{});
+        List<String> output = TextProcessor.findAnagrams("", new String[]{});
         assertTrue(output.isEmpty());
     }
 
@@ -35,7 +35,7 @@ class AnagramFinderTest {
         String text = "The cats stare the rat";
         String[] textArray = text.split("\\s+");
 
-        List<String> output = AnagramFinder.findAnagrams(referenceWord, textArray);
+        List<String> output = TextProcessor.findAnagrams(referenceWord, textArray);
         assertEquals(1, output.size());
         assertEquals("stare", output.stream().findFirst().orElseThrow());
     }
@@ -46,9 +46,18 @@ class AnagramFinderTest {
         String text = "at least that is a steal";
         String[] textArray = text.split("\\s+");
 
-        List<String> output = AnagramFinder.findAnagrams(referenceWord, textArray);
+        List<String> output = TextProcessor.findAnagrams(referenceWord, textArray);
         assertEquals(2, output.size());
         assertEquals("least", output.get(0));
         assertEquals("steal", output.get(1));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"NBA2K"})
+    void findingAnagrams_shouldIgnoresNonAlphabeticValues_always(String referenceWord) {
+        String text = "NBA2K is the best basketball simulation video game";
+        String[] textArray = text.split("\\s+");
+
+        assertThrows(IllegalArgumentException.class, ()->TextProcessor.findAnagrams(referenceWord, textArray));
     }
 }

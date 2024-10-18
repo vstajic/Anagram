@@ -1,5 +1,7 @@
 package com.gramm.ana;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -8,22 +10,30 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ReferenceWordTest {
+class AsciiCharCountAnagramCheckerTest {
 
-    private ReferenceWord referenceWord;
+    private AsciiCharCountAnagramChecker anagramChecker;
+
+    @BeforeEach
+    void setUp() {
+        anagramChecker = new AsciiCharCountAnagramChecker();
+    }
 
     @ParameterizedTest
     @MethodSource("providePositiveAnagramTestCases")
     void areAnagrams_shouldReturnTrue_whenInputsAreAnagramsToEachOther(String referenceWord, String word) {
-        this.referenceWord = new ReferenceWord(referenceWord);
-        assertTrue(this.referenceWord.isAnagram(word));
+        assertTrue(anagramChecker.areAnagrams(referenceWord, word));
+    }
+
+    @Test
+    void areAnagrams_shouldThrowException_whenInputContainNumbers() {
+        assertThrows(IllegalArgumentException.class, () -> anagramChecker.areAnagrams("NBA23", "32ANB"));
     }
 
     @ParameterizedTest
     @MethodSource("provideNotAnagramTestCases")
     void areAnagrams_shouldReturnFalse_whenInputsAreNotAnagrams(String referenceWord, String word) {
-        this.referenceWord = new ReferenceWord(referenceWord);
-        assertFalse(this.referenceWord.isAnagram(word));
+        assertFalse(anagramChecker.areAnagrams(referenceWord, word));
     }
 
     private static Stream<Arguments> providePositiveAnagramTestCases() {
