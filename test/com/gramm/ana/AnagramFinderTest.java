@@ -37,7 +37,7 @@ class AnagramFinderTest {
 
         List<String> output = AnagramFinder.findAnagrams(referenceWord, textArray);
         assertEquals(1, output.size());
-        assertEquals("stare", output.stream().findFirst().get());
+        assertEquals("stare", output.stream().findFirst().orElseThrow());
     }
 
     @ParameterizedTest
